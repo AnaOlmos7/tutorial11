@@ -1,0 +1,20 @@
+
+
+function toEnteroPositivo (cadenaTexto : string) {
+    const valor = parseInt(cadenaTexto)
+    const exito = !isNaN(valor) && valor > 0
+
+    return {valor,exito}
+}
+
+function calcularDivisores(numero : number){
+    const lista=[]
+    for(let i=1;i<=numero;i++){
+        if(numero%i === 0){
+            lista.push(i)
+        }
+    }
+    return lista
+}
+
+export {toEnteroPositivo,calcularDivisores}

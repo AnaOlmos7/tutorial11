@@ -1,4 +1,4 @@
-import { Alert, FlatList, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Alert, FlatList, Modal, Pressable, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useState } from 'react'
 import { calcularDivisores, toEnteroPositivo } from './utils/Funciones'
 import CajaDivisor from './components/CajaDivisor'
@@ -6,12 +6,14 @@ import CajaDivisor from './components/CajaDivisor'
 export default function App() {
 
   const [texto,setTexto] = useState ("")
+  const [modalVisible,setModalVisible] = useState(false)
   const [listaDivisores, setListaDivisores] = useState <Array<number>>([])
   function aceptarPulsado() {
     const {exito,valor} = toEnteroPositivo(texto)
     if(exito){
       const lista = calcularDivisores(valor)
       setListaDivisores(lista)
+      setModalVisible(true)
     }
     else{
       Alert.alert("Error, debe introducirse un numero positivo")
@@ -35,14 +37,24 @@ export default function App() {
         
           </Pressable>
       </View>
-      <View style={styles.contenedorSecundario}>
-        <FlatList
-        data={listaDivisores}
-        renderItem={CajaDivisor}
-        keyExtractor={numero => numero.toString()}
-        numColumns={4}
+    
+      {
+        modalVisible && (
+        <Modal  animationType={'slide'} transparent = {true}>
+          <Pressable
+          style={styles.zonaSuperiorModal}
+          onPress={() => {setModalVisible(false)}}/>
+        <View style={styles.zonaInferiorModal}>
+          <FlatList
+            data={listaDivisores}
+            renderItem={CajaDivisor}
+            keyExtractor={numero => numero.toString()}
+            numColumns={4}
         />
-      </View>
+        </View>
+        </Modal>
+        )
+      }
     </View>
   )
 }
@@ -108,5 +120,24 @@ contenedorPrincipal: {
     fontSize: 16,
     fontWeight: "600",
   },
+
+  zonaInferiorModal: {
+    position:"absolute",
+    bottom:0,
+    width:"100%",
+    backgroundColor:"#fff",
+    borderTopLeftRadius:24,
+    borderTopRightRadius:24,
+    paddingTop:16,
+    paddingBottom:32,
+    alignItems:"center"
+
+
+  },
+
+  zonaSuperiorModal: {
+    flex:1,
+    backgroundColor:'rgba(0,0,0,0.1)'
+  }
 
 })

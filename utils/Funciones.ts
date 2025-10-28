@@ -1,6 +1,12 @@
 
 
-function toEnteroPositivo (cadenaTexto : string) {
+type ResultadoConversion = {
+    valor:number
+    exito:boolean
+}
+
+
+function toEnteroPositivo (cadenaTexto : string):ResultadoConversion {
     const valor = parseInt(cadenaTexto)
     const exito = !isNaN(valor) && valor > 0
 

@@ -13,14 +13,20 @@ function toEnteroPositivo (cadenaTexto : string):ResultadoConversion {
     return {valor,exito}
 }
 
-function calcularDivisores(numero : number){
+async function calcularDivisores(numero : number): Promise<Array<number>>{
+
+    return new Promise( (resolve,reject) => {
+
     const lista=[]
     for(let i=1;i<=numero;i++){
         if(numero%i === 0){
             lista.push(i)
         }
-    }
-    return lista
+    }    
+     resolve(lista)  
+    })
+  
+ 
 }
 
 export {toEnteroPositivo,calcularDivisores}
